@@ -9,11 +9,10 @@ script:
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
-  username: __token__
+  username: skyme5
   on:
     repo: skyme5/magzdb
     python: 3.8
-  password:
-    secure: FpgxhoB+55jrWqAyEzg7cmV2FN4n8fXRefr6S+hVhd/PEcPsRVKtxO7RyxBwjeftWBrj4mjtd++5/fzD2yXHth9GqMGxcWk0xWhdNhziLTqt3WtgEK4avhuD5STqZUK4UMePrJZEz/Ys8LKG9ALhs/MR7h8P5eAhNou4X0WucULlm7+Hl6qwx0WTG1HU8BSvc4CZPHuGNhhZ0IzbpGOjlIN+cAgxcl2CNUVf6xWOiMSiLnp94lPUyf5w4OGj5NE63Z+RDrYfWsPKt8jhvvVnthCFpVV+ciOIlEAJ6HJ5o+Rb4s5Ot745JDiTJf6EZGy6+Bi+X0KuxW6FDvFzCM+szayFOW8yHaiC48KjCRxqxraseLGTGH+8rF6vLibDPC3iBNZXTZhBVgZx9Nib0nneHEkCf8EIePMWyifFElEVaFUhqo5IhLr8w/ffvdWER3U5uZBN53mt2m1YCTjv0OWuePZlJDHWnDt7eMX9vHNtDj9bvSonQkka4AU40wFAIJd/o3znGRTL1vCV2SIwwXRAPkIkBAqAin7t9m5Svh8u8NcjuUPmD8CsXDNKabcx3sT1jCGomcIUTCFmQT8XSrQ69gnni/5x2q9yThXt+hXZGLDcYd+tMFNNLwzG/yUhPgHa6EJ3ZcHmSQ63An4HscBwj+0/XRS1cUP1DsTf1B//gyg=
+  password: $PYPI_PASS
 after_success:
 - codecov
