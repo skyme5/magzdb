@@ -1,5 +1,5 @@
 ======
-magzdb
+magzdb - Magzdb.org Downloader
 ======
 
 
@@ -18,19 +18,32 @@ magzdb
      :target: https://pyup.io/repos/github/skyme5/magzdb/
      :alt: Updates
 
+Installation
+------------
+
+Install using pip
+
+.. code-block:: bash
+
+   pip install magzdb
 
 
-Magzdb.org Downloader
+Usage
+-----
 
+    usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] [-l] [-P DIRECTORY_PREFIX]
 
-* Free software: MIT license
-* Documentation: https://magzdb.readthedocs.io.
+    optional arguments:
+      -h, --help            show this help message and exit
+      -V, --version         Print program version and exit
+      -i MAGAZINE_ID, --id MAGAZINE_ID
+                            ID of the Magazine to Download. eg. http://magzdb.org/j/<ID>.
+      -e [EDITION [EDITION ...]], --editions [EDITION [EDITION ...]]
+                            Select Edition
+      -l, --latest          Download only latest edition.
+      -P DIRECTORY_PREFIX, --directory-prefix DIRECTORY_PREFIX
+                            Download directory.
 
-
-Features
---------
-
-* TODO
 
 Credits
 -------
