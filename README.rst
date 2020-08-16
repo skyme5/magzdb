@@ -1,6 +1,6 @@
-======
+==============================
 magzdb - magzdb.org Downloader
-======
+==============================
 
 
 .. image:: https://img.shields.io/pypi/v/magzdb.svg
