@@ -1,5 +1,5 @@
 ======
-magzdb - Magzdb.org Downloader
+magzdb - magzdb.org Downloader
 ======
 
 
