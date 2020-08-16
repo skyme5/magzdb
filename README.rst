@@ -9,14 +9,10 @@ magzdb - Magzdb.org Downloader
 .. image:: https://img.shields.io/travis/skyme5/magzdb.svg
         :target: https://travis-ci.com/skyme5/magzdb
 
-.. image:: https://readthedocs.org/projects/magzdb/badge/?version=latest
-        :target: https://magzdb.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
-
 .. image:: https://pyup.io/repos/github/skyme5/magzdb/shield.svg
      :target: https://pyup.io/repos/github/skyme5/magzdb/
      :alt: Updates
+
 
 Installation
 ------------
