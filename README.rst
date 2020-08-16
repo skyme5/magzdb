@@ -38,8 +38,8 @@ Usage
       -V, --version         Print program version and exit
       -i MAGAZINE_ID, --id MAGAZINE_ID
                             ID of the Magazine to Download. eg. http://magzdb.org/j/<ID>.
-      -e [EDITION [EDITION ...]], --editions [EDITION [EDITION ...]]
-                            Select Edition
+      -e EDITION, --editions EDITION
+                            Select Edition (you can specify multiple editions)
       -l, --latest          Download only latest edition.
       -P DIRECTORY_PREFIX, --directory-prefix DIRECTORY_PREFIX
                             Download directory.
