@@ -8,6 +8,12 @@
         alt="Python Package"
       />
     </a>
+    <a href="https://pypi.python.org/pypi/magzdb">
+      <img
+        src="https://img.shields.io/github/workflow/status/skyme5/magzdb/build"
+        alt="CI"
+      />
+    </a>
     <a href="https://codecov.io/gh/skyme5/magzdb">
       <img
         src="https://img.shields.io/pypi/pyversions/magzdb"
