@@ -5,11 +5,8 @@ from setuptools import setup
 
 from magzdb.version import __version__
 
-with open("README.rst") as readme_file:
+with open("README.md") as readme_file:
     readme = readme_file.read()
-
-with open("HISTORY.rst") as history_file:
-    history = history_file.read()
 
 with open("requirements.txt", "r") as file:
     requirements = [r for r in file.readlines() if len(r) > 0]
@@ -39,7 +36,8 @@ setup(
     install_requires=requirements,
     keywords="magzdb",
     license="MIT license",
-    long_description=readme + "\n\n" + history,
+    long_description=readme,
+    long_description_content_type="text/markdown",
     name="magzdb",
     packages=find_packages(include=["magzdb", "magzdb.*"]),
     setup_requires=setup_requirements,
