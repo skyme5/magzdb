@@ -48,14 +48,27 @@ def main():
         type=None,
     )
 
+    parser.add_argument(
+        "--downloader",
+        help="Use External downloader. Currently supported: aria2, wget",
+        metavar="DOWNLOADER",
+        choices=["aria2", "wget", "self"],
+        default="self",
+    )
+
+    parser.add_argument(
+        "--debug", help="Print debug information.", action="store_true",
+    )
+
     args = parser.parse_args()
-    print(args)
 
     dl = Magzdb(
         directory_prefix=args.directory_prefix,
         editions=args.editions,
         latest=args.latest,
         id=args.id,
+        downloader=args.downloader,
+        debug=args.debug,
     )
     dl.download()
 
