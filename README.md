@@ -48,7 +48,7 @@ $ pip install magzdb
 ### Usage
 
 ```text
-usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] [-l] [-P DIRECTORY_PREFIX]
+usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER] [--debug]
 
 Magzdb.org Downloader
 
@@ -56,13 +56,15 @@ optional arguments:
   -h, --help            show this help message and exit
   -V, --version         Print program version and exit
   -i MAGAZINE_ID, --id MAGAZINE_ID
-                        ID of the Magazine to Download
-                        eg. http://magzdb.org/j/<ID>.
+                        ID of the Magazine to Download. eg. http://magzdb.org/j/<ID>.
   -e [EDITION [EDITION ...]], --editions [EDITION [EDITION ...]]
                         Select Edition
   -l, --latest          Download only latest edition.
   -P DIRECTORY_PREFIX, --directory-prefix DIRECTORY_PREFIX
                         Download directory.
+  --downloader DOWNLOADER
+                        Use External downloader. Currently supported: aria2, wget
+  --debug               Print debug information.
 ```
 
 ### Usage Examples
@@ -83,4 +85,10 @@ $ magzdb -i 1826 -l
 
 ```bash
 $ magzdb -i 1826 -l -P magazine
+```
+
+#### Use external downloader
+
+```bash
+$ magzdb -i 1826 -l -P magazine --downloader wget
 ```
