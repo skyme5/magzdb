@@ -54,7 +54,8 @@ $ pip install magzdb
 ### Usage
 
 ```text
-usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER] [--debug]
+usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] 
+              [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER] [--debug]
 
 Magzdb.org Downloader
 
