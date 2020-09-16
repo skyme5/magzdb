@@ -54,15 +54,18 @@ $ pip install magzdb
 ### Usage
 
 ```text
-usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER] [--debug]
+usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] 
+              [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER] [--debug]
 
 Magzdb.org Downloader
+
+required arguments:
+  -i MAGAZINE_ID, --id MAGAZINE_ID
+                        ID of the Magazine to Download. eg. http://magzdb.org/j/<ID>.
 
 optional arguments:
   -h, --help            show this help message and exit
   -V, --version         Print program version and exit
-  -i MAGAZINE_ID, --id MAGAZINE_ID
-                        ID of the Magazine to Download. eg. http://magzdb.org/j/<ID>.
   -e [EDITION [EDITION ...]], --editions [EDITION [EDITION ...]]
                         Select Edition
   -l, --latest          Download only latest edition.
