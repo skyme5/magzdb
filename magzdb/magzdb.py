@@ -32,7 +32,7 @@ class Magzdb:
             flags=re.IGNORECASE | re.MULTILINE,
         )
         self.REGEX_EDITION = re.compile(
-            r"""<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)\s*№[\[\(]+(?P<eyear>\d+)[\]\)]+\s*\((?P<edition>\d+)\)"><span\s*style="background-color""",
+            r"""<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)\s*№[\[\(]?(?P<issue>\d+)[\]\)]?(\s*\((?P<edition>[\w]+)\))?"><span\s*style="background-color""",
             flags=re.IGNORECASE | re.MULTILINE,
         )
 
@@ -136,9 +136,9 @@ class Magzdb:
         print("Found {} editions of {}".format(len(editions), title))
 
         for edition in list(reversed(editions)):
-            eid, year, eyear, _ = edition
+            eid, year, issue, *_ = edition
 
-            print("Downloading {} of year {}".format(eyear, year))
+            print("Downloading {} of year {}".format(issue, year))
 
             download_link_id = self._html_regex(
                 self.EDITION_DOWNLOAD_PAGE.format(eid),
