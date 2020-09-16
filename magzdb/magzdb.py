@@ -86,7 +86,7 @@ class Magzdb:
 
     def _html_regex(self, url, regex):
         try:
-            docstring = self.request.get(url).text
+            docstring = self.request.get(url, allow_redirects=False).text
             return re.search(regex, docstring)
         except re.error as e:
             print(e)
