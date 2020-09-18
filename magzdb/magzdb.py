@@ -98,6 +98,51 @@ class Magzdb:
             print(e)
             raise Exception("HTTP Error encountered.")
 
+    def apply_filter(self, all_editions, editions, filter: str):
+        """Apply filter to list of editions.
+
+        Args:
+            all_editions ([Tuple]): List of Tuples containing eid, year and issue information
+            editions ([str]): List of eid
+            filter (str): Filter expression
+        """
+
+        def prepare_filter(filter_str):
+            """Sanitize filter expression.
+
+            Args:
+                filter_str (str): Input filter expression
+
+            Returns:
+                str: Safe filter expression
+            """
+            allowed_tokens = "eid year issue and or < <= > >= =="
+            number = re.compile(r"^[-+]?([1-9]\d*|0)$")
+            return " ".join(
+                [
+                    e
+                    for e in re.split(r"\s+", filter_str.lower())
+                    if e in allowed_tokens or re.match(number, e)
+                ]
+            )
+
+        def eval_filter(filter_str, params):
+            eid, year, issue, *_ = params
+            filter = filter_str.replace("eid", eid)
+            filter = filter.replace("year", year)
+            filter = filter.replace("issue", issue)
+            return eval(filter)
+
+        if editions is not None and len(editions) > 0:
+            return [e for e in all_editions if e[0] in editions]
+
+        if filter is not None:
+            filter = prepare_filter(filter)
+            self._print("Filter prepared: `{}`".format(filter))
+            return [e for e in all_editions if eval_filter(filter, e)]
+
+        return all_editions
+
     def get_valid_filename(self, s):
         """Return the given string converted to a string that can be used for a clean filename.
 
@@ -110,14 +155,13 @@ class Magzdb:
         s = str(s).strip().replace(" ", "_")
         return re.sub(r"(?u)[^-\w.]", "", s)
 
-    def get_editions(self, id: str, editions_list: list):
+    def get_editions(self, id: str):
         """Get title and editions for `id`.
 
         If list of editions is provided then returns only those.
 
         Args:
             id (str): Magazine ID
-            editions_list ([str]): list of editions to download
 
         Raises:
             Exception: re.error
@@ -132,9 +176,6 @@ class Magzdb:
             title = re.search(self.REGEX_TITLE, docstring).group("title")
             editions = re.findall(self.REGEX_EDITION, docstring)
 
-            if len(editions_list) > 0:
-                return (title, [e for e in editions if e[0] in editions_list])
-
             return (title, editions)
         except re.error as e:
             print(e)
@@ -146,15 +187,23 @@ class Magzdb:
             print(e)
             raise Exception("HTTP Error encountered.")
 
-    def download(self, id: str, editions_list: list, latest_only: bool):
+    def download(
+        self,
+        id: str,
+        editions=list(),
+        latest_only=bool,
+        filter=None,
+    ):
         """Download Editions."""
-        title, editions = self.get_editions(id=id, editions_list=editions_list)
+        title, all_editions = self.get_editions(id=id)
         title = self.get_valid_filename(title)
         directory = os.path.join(self.directory_prefix, title)
 
-        print("Found {} editions of {}".format(len(editions), title))
+        selected_editions = self.apply_filter(all_editions, editions, filter)
 
-        for edition in list(reversed(editions)):
+        print("Found {} editions of {}".format(len(selected_editions), title))
+
+        for edition in list(reversed(selected_editions)):
             eid, year, issue, *_ = edition
 
             print("Downloading year {} issue {}".format(year, issue))
@@ -173,7 +222,9 @@ class Magzdb:
                 ).group("url")
                 self._print("Download URL: {}".format(download_url))
             except AttributeError:
-                print("Download Url not found for http://magzdb.org/num/{}/dl".format(eid))
+                print(
+                    "Download Url not found for http://magzdb.org/num/{}/dl".format(eid)
+                )
                 continue
 
             filename = self.get_valid_filename(download_url.split("/")[-1])

@@ -55,7 +55,8 @@ $ pip install magzdb
 
 ```text
 usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]]
-              [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER] [--debug]
+              [-f FILTER] [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER]
+              [--debug]
 
 Magzdb.org Downloader
 
@@ -68,6 +69,8 @@ optional arguments:
   -V, --version         Print program version and exit
   -e [EDITION [EDITION ...]], --editions [EDITION [EDITION ...]]
                         Select Edition
+  -f FILTER, --filter FILTER
+                        Use filter. See README#Filters
   -l, --latest          Download only latest edition.
   -P DIRECTORY_PREFIX, --directory-prefix DIRECTORY_PREFIX
                         Download directory.
@@ -83,6 +86,24 @@ optional arguments:
 ```bash
 $ magzdb -i 1826
 ```
+
+#### Filters
+
+You can supply filter using `-f`, for example to download issues between
+`4063895` and `4063901`, you can write as
+
+```bash
+$ magzdb -i 1826 -f "eid > 4063895 and eid < 4063901"
+```
+
+You can use any of `eid`, `year`, `issue` the fields in the filter expression.
+
+##### More examples of filter expression
+
+- `eid > 4063895 and eid < 4063901` or `eid >= 4063895 and eid <= 4063901`
+- `eid >= 4063895` or `eid != 4063895`
+- `year >= 2018`, `year <= 2018`, `year == 2018` or even `year != 2018`
+- `year >= 2018 and issue >= 10`
 
 #### Download only latest edition
 

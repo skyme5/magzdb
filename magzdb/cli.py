@@ -37,6 +37,14 @@ def main():
     )
 
     parser.add_argument(
+        "-f",
+        "--filter",
+        help="Use filter. See README#Filters",
+        type=str,
+        default=None,
+    )
+
+    parser.add_argument(
         "-l",
         "--latest",
         action="store_true",
@@ -74,8 +82,9 @@ def main():
     )
     dl.download(
         id=args.id,
-        editions_list=args.editions,
+        editions=args.editions or list(),
         latest_only=args.latest,
+        filter=args.filter,
     )
 
     return 0
