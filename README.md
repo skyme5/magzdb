@@ -101,3 +101,5 @@ $ magzdb -i 1826 -l -P magazine
 ```bash
 $ magzdb -i 1826 -l -P magazine --downloader wget
 ```
+
+> This is recommended since internal downloader does not support resuming interrupted downloads.

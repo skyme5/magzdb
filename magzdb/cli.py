@@ -69,13 +69,14 @@ def main():
 
     dl = Magzdb(
         directory_prefix=args.directory_prefix,
-        editions=args.editions,
-        latest=args.latest,
-        id=args.id,
         downloader=args.downloader,
         debug=args.debug,
     )
-    dl.download()
+    dl.download(
+        id=args.id,
+        editions_list=args.editions,
+        latest_only=args.latest,
+    )
 
     return 0
 

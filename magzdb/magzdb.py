@@ -13,17 +13,17 @@ class Magzdb:
     def __init__(
         self,
         directory_prefix=str,
-        editions=list,
-        latest=bool,
-        id=str,
         downloader=str,
         debug=False,
     ):
-        """Global options."""
+        """Set global options.
+
+        Args:
+            directory_prefix (str, optional): Directory prefix for downloading. Defaults to current directory.
+            downloader (str, optional): One of self, aria2, wget. Defaults to self.
+            debug (bool, optional): Print debug information. Defaults to False.
+        """
         self.directory_prefix = directory_prefix or os.getcwd()
-        self.editions = editions
-        self.latest_only = latest
-        self.id = id
         self.downloader = downloader
         self.debug = debug
 
@@ -110,18 +110,30 @@ class Magzdb:
         s = str(s).strip().replace(" ", "_")
         return re.sub(r"(?u)[^-\w.]", "", s)
 
-    def get_editions(self):
+    def get_editions(self, id: str, editions_list: list):
         """Get title and editions for `id`.
 
         If list of editions is provided then returns only those.
+
+        Args:
+            id (str): Magazine ID
+            editions_list ([str]): list of editions to download
+
+        Raises:
+            Exception: re.error
+            Exception: requests.ConnectionError
+            Exception: requests.HTTPError
+
+        Returns:
+            Tuple[str, list]: Tuple of title and editions found from magzdb
         """
         try:
-            docstring = self.request.get("http://magzdb.org/j/" + self.id).text
+            docstring = self.request.get("http://magzdb.org/j/" + id).text
             title = re.search(self.REGEX_TITLE, docstring).group("title")
             editions = re.findall(self.REGEX_EDITION, docstring)
 
-            if self.editions is not None and len(self.editions) > 0:
-                return (title, [e for e in editions if e[0] in self.editions])
+            if len(editions_list) > 0:
+                return (title, [e for e in editions if e[0] in editions_list])
 
             return (title, editions)
         except re.error as e:
@@ -134,9 +146,9 @@ class Magzdb:
             print(e)
             raise Exception("HTTP Error encountered.")
 
-    def download(self):
+    def download(self, id: str, editions_list: list, latest_only: bool):
         """Download Editions."""
-        title, editions = self.get_editions()
+        title, editions = self.get_editions(id=id, editions_list=editions_list)
         title = self.get_valid_filename(title)
         directory = os.path.join(self.directory_prefix, title)
 
@@ -146,18 +158,23 @@ class Magzdb:
             eid, year, issue, *_ = edition
 
             print("Downloading year {} issue {}".format(year, issue))
+            self._print("Issue ID: {}".format(eid))
 
             download_link_id = self._html_regex(
                 self.EDITION_DOWNLOAD_PAGE.format(eid),
                 r"""<a\s*href\=\.\.\/file\/(?P<id>\d+)/dl>""",
             ).group("id")
-            self._print(download_link_id)
+            self._print("Download Link ID: {}".format(download_link_id))
 
-            download_url = self._html_regex(
-                self.EDITION_DOWNLOAD_URL.format(download_link_id),
-                r'''<a href="(?P<url>[^"]*\.\w+)"''',
-            ).group("url")
-            self._print(download_url)
+            try:
+                download_url = self._html_regex(
+                    self.EDITION_DOWNLOAD_URL.format(download_link_id),
+                    r'''<a href="(?P<url>[^"]*\.\w+)"''',
+                ).group("url")
+                self._print("Download URL: {}".format(download_url))
+            except AttributeError:
+                print("Download Url not found for http://magzdb.org/num/{}/dl".format(eid))
+                continue
 
             filename = self.get_valid_filename(download_url.split("/")[-1])
             filepath = os.path.join(directory, filename)
@@ -178,5 +195,5 @@ class Magzdb:
             else:
                 self._download_file(download_url, filepath)
 
-            if self.latest_only:
-                exit(0)
+            if latest_only:
+                return
