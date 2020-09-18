@@ -28,11 +28,11 @@ class Magzdb:
         self.debug = debug
 
         self.REGEX_TITLE = re.compile(
-            r"""<h1><a href=/j/\d+><b>(?P<title>[^<]+)</b></a></h1>""",
+            r'''<title>(?P<title>[^|]+)\|\s+magzDB</title>''',
             flags=re.IGNORECASE | re.MULTILINE,
         )
         self.REGEX_EDITION = re.compile(
-            r"""<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)\s*№[\[\(]?(?P<issue>\d+)[\]\)]?(\s*\((?P<edition>[\w]+)\))?"><span\s*style="background-color""",
+            r'''<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)\s*№[\[\(]?(?P<issue>\d+)[\]\)]?(\s*\((?P<edition>[\w]+)\))?"><span\s*style="background-color''',
             flags=re.IGNORECASE | re.MULTILINE,
         )
 
@@ -117,11 +117,11 @@ class Magzdb:
                 str: Safe filter expression
             """
             allowed_tokens = "eid year issue and or < <= > >= =="
-            number = re.compile(r"^[-+]?([1-9]\d*|0)$")
+            number = re.compile(r'^[-+]?([1-9]\d*|0)$')
             return " ".join(
                 [
                     e
-                    for e in re.split(r"\s+", filter_str.lower())
+                    for e in re.split(r'\s+', filter_str.lower())
                     if e in allowed_tokens or re.match(number, e)
                 ]
             )
@@ -153,7 +153,7 @@ class Magzdb:
         'johns_portrait_in_2004.jpg'
         """
         s = str(s).strip().replace(" ", "_")
-        return re.sub(r"(?u)[^-\w.]", "", s)
+        return re.sub(r'(?u)[^-\w.]', "", s)
 
     def get_editions(self, id: str):
         """Get title and editions for `id`.
@@ -211,7 +211,7 @@ class Magzdb:
 
             download_link_id = self._html_regex(
                 self.EDITION_DOWNLOAD_PAGE.format(eid),
-                r"""<a\s*href\=\.\.\/file\/(?P<id>\d+)/dl>""",
+                r'''<a\s*href\=\.\.\/file\/(?P<id>\d+)/dl>''',
             ).group("id")
             self._print("Download Link ID: {}".format(download_link_id))
 
