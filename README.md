@@ -54,7 +54,7 @@ $ pip install magzdb
 ### Usage
 
 ```text
-usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]] 
+usage: magzdb [-h] [-V] -i MAGAZINE_ID [-e [EDITION [EDITION ...]]]
               [-l] [-P DIRECTORY_PREFIX] [--downloader DOWNLOADER] [--debug]
 
 Magzdb.org Downloader
@@ -72,7 +72,7 @@ optional arguments:
   -P DIRECTORY_PREFIX, --directory-prefix DIRECTORY_PREFIX
                         Download directory.
   --downloader DOWNLOADER
-                        Use External downloader. Currently supported: aria2, wget
+                        Use External downloader (RECOMMENDED). Currently supported: aria2, wget
   --debug               Print debug information.
 ```
 

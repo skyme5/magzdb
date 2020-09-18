@@ -47,7 +47,7 @@ class Magzdb:
         self.reaponse_ok = requests.Response.ok
         self.request = requests.Session()
 
-    def print(self, msg):
+    def _print(self, msg: str):
         """Print debug information."""
         if self.debug:
             print(msg)
@@ -71,7 +71,7 @@ class Magzdb:
                 if response.status_code != self.reaponse_ok:
                     response.raise_for_status()
 
-                self.print("Downloading to {}".format(dest))
+                self._print("Downloading to {}".format(dest))
                 for data in response.iter_content(chunk_size=8192):
                     handle.write(data)
                 handle.close()
@@ -111,11 +111,18 @@ class Magzdb:
         return re.sub(r"(?u)[^-\w.]", "", s)
 
     def get_editions(self):
-        """Get Editions for `id`."""
+        """Get title and editions for `id`.
+
+        If list of editions is provided then returns only those.
+        """
         try:
             docstring = self.request.get("http://magzdb.org/j/" + self.id).text
             title = re.search(self.REGEX_TITLE, docstring).group("title")
             editions = re.findall(self.REGEX_EDITION, docstring)
+
+            if self.editions is not None and len(self.editions) > 0:
+                return (title, [e for e in editions if e[0] in self.editions])
+
             return (title, editions)
         except re.error as e:
             print(e)
@@ -138,19 +145,19 @@ class Magzdb:
         for edition in list(reversed(editions)):
             eid, year, issue, *_ = edition
 
-            print("Downloading {} of year {}".format(issue, year))
+            print("Downloading year {} issue {}".format(year, issue))
 
             download_link_id = self._html_regex(
                 self.EDITION_DOWNLOAD_PAGE.format(eid),
                 r"""<a\s*href\=\.\.\/file\/(?P<id>\d+)/dl>""",
             ).group("id")
-            self.print(download_link_id)
+            self._print(download_link_id)
 
             download_url = self._html_regex(
                 self.EDITION_DOWNLOAD_URL.format(download_link_id),
                 r'''<a href="(?P<url>[^"]*\.\w+)"''',
             ).group("url")
-            self.print(download_url)
+            self._print(download_url)
 
             filename = self.get_valid_filename(download_url.split("/")[-1])
             filepath = os.path.join(directory, filename)
@@ -166,7 +173,7 @@ class Magzdb:
                     }[self.downloader]
 
                 command = downloader_command(directory, filename, download_url)
-                self.print(command)
+                self._print(command)
                 subprocess.run(command)
             else:
                 self._download_file(download_url, filepath)

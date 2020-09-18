@@ -37,7 +37,10 @@ def main():
     )
 
     parser.add_argument(
-        "-l", "--latest", action="store_true", help="Download only latest edition.",
+        "-l",
+        "--latest",
+        action="store_true",
+        help="Download only latest edition.",
     )
 
     parser.add_argument(
@@ -50,14 +53,16 @@ def main():
 
     parser.add_argument(
         "--downloader",
-        help="Use External downloader. Currently supported: aria2, wget",
+        help="Use External downloader (RECOMMENDED). Currently supported: aria2, wget",
         metavar="DOWNLOADER",
         choices=["aria2", "wget", "self"],
         default="self",
     )
 
     parser.add_argument(
-        "--debug", help="Print debug information.", action="store_true",
+        "--debug",
+        help="Print debug information.",
+        action="store_true",
     )
 
     args = parser.parse_args()
