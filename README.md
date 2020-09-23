@@ -77,6 +77,7 @@ optional arguments:
   --downloader DOWNLOADER
                         Use External downloader (RECOMMENDED). Currently supported: aria2, wget
   --debug               Print debug information.
+  --skip-download       Don't download files.
 ```
 
 ### Usage Examples
