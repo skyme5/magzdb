@@ -47,7 +47,7 @@
 Install using pip
 
 ```bash
-$ pip install magzdb
+$ pip install -U magzdb
 ```
 
 
