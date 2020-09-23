@@ -1,9 +1,16 @@
 """Console script for magzdb."""
 import argparse
+import signal
 import sys
+
+from loguru import logger
 
 from magzdb.magzdb import Magzdb
 from magzdb.version import __version__
+
+
+def handler(signum, frame):
+    exit(0)
 
 
 def main():
@@ -37,18 +44,11 @@ def main():
     )
 
     parser.add_argument(
-        "-f",
-        "--filter",
-        help="Use filter. See README#Filters",
-        type=str,
-        default=None,
+        "-f", "--filter", help="Use filter. See README#Filters", type=str, default=None,
     )
 
     parser.add_argument(
-        "-l",
-        "--latest",
-        action="store_true",
-        help="Download only latest edition.",
+        "-l", "--latest", action="store_true", help="Download only latest edition.",
     )
 
     parser.add_argument(
@@ -68,18 +68,27 @@ def main():
     )
 
     parser.add_argument(
-        "--debug",
-        help="Print debug information.",
-        action="store_true",
+        "--debug", help="Print debug information.", action="store_true",
+    )
+
+    parser.add_argument(
+        "--skip-download", help="Don't download files.", action="store_true",
     )
 
     args = parser.parse_args()
+
+    if args.downloader == "self":
+        logger.warning("Use of external downloader like wget or aria2 is recommended")
 
     dl = Magzdb(
         directory_prefix=args.directory_prefix,
         downloader=args.downloader,
         debug=args.debug,
+        skip_download=args.skip_download,
     )
+
+    signal.signal(signal.SIGINT, handler)
+
     dl.download(
         id=args.id,
         editions=args.editions or list(),
