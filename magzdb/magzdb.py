@@ -241,7 +241,7 @@ class Magzdb:
                 command = downloader_command(directory, filename, download_url)
                 self._print(command)
                 if self.skip_download is False:
-                    subprocess.run(command)
+                    subprocess.run(command, shell=True)
             else:
                 if self.skip_download is False:
                     self._download_file(download_url, filepath)
