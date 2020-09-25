@@ -1,4 +1,0 @@
-ignore:
-- "setup.py"
-- "magzdb\\cli.py"
-- "magzdb\\version.py"

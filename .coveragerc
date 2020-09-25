@@ -8,7 +8,7 @@ exclude_lines =
     except requests.exceptions.RequestException:
     except FileNotFoundError:
     except AttributeError:
-        os.remove(dest)
+    os.remove(dest)
     continue
     return
 
@@ -17,5 +17,5 @@ omit =
     .eggs/*
     venv/*
     setup.py
-    magzdb\cli.py
-    magzdb\version.py
+    magzdb/cli.py
+    magzdb/version.py
