@@ -26,6 +26,12 @@
         alt="The Uncompromising Code Formatter"
       />
     </a>
+    <a href="https://codecov.io/gh/skyme5/magzdb">
+      <img
+        src="https://img.shields.io/codecov/c/github/skyme5/magzdb"
+        alt="Code Coverage"
+      />
+    </a>
     <a href="https://pepy.tech/project/magzdb">
       <img
         src="https://static.pepy.tech/badge/magzdb"
