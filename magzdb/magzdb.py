@@ -194,6 +194,9 @@ class Magzdb:
         title = self.get_valid_filename(title)
         directory = os.path.join(self.directory_prefix, title)
 
+        if not os.path.exists(directory):
+            os.makedirs(directory, exist_ok=True)
+
         selected_editions = self.apply_filter(all_editions, editions, filter)
 
         logger.info("Found {} editions of {}".format(len(selected_editions), title))
