@@ -12,14 +12,19 @@ class Magzdb:
     """Magzdb Downloader."""
 
     def __init__(
-        self, directory_prefix=str, downloader=str, debug=False, skip_download=False,
+        self,
+        directory_prefix=None,
+        downloader="self",
+        debug=False,
+        skip_download=False,
     ):
         """Set global options.
 
         Args:
-            directory_prefix (str, optional): Directory prefix for downloading. Defaults to current directory.
-            downloader (str, optional): One of self, aria2, wget. Defaults to self.
+            directory_prefix (str): Directory prefix for downloading. Defaults to current directory.
+            downloader (str): One of self, aria2, wget. Defaults to self.
             debug (bool, optional): logger.error debug information. Defaults to False.
+            skip_download (bool, optional): skip downloading
         """
         self.directory_prefix = directory_prefix or os.getcwd()
         self.downloader = downloader
@@ -31,7 +36,7 @@ class Magzdb:
             flags=re.IGNORECASE | re.MULTILINE,
         )
         self.REGEX_EDITION = re.compile(
-            r"""<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)\s*№[\[\(]?(?P<issue>\d+)[\]\)]?(\s*\((?P<edition>[\w]+)\))?"><span\s*style="background-color""",
+            r"""<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)\s*№[\[\(]?(?P<issue>\d+)[^"]+"><span style="background-color""",
             flags=re.IGNORECASE | re.MULTILINE,
         )
 
@@ -52,11 +57,11 @@ class Magzdb:
             logger.debug(msg)
 
     def _download_file(self, url: str, dest: str):
-        if not os.path.exists(os.path.dirname(dest)):
+        if len(os.path.dirname(dest)) > 0:
             os.makedirs(os.path.dirname(dest), exist_ok=True)
 
         try:
-            if os.path.getsize(dest) == 0:
+            if os.path.isfile(dest) and os.path.getsize(dest) == 0:  # pragma: no cover
                 os.remove(dest)
         except FileNotFoundError:
             pass
@@ -80,7 +85,7 @@ class Magzdb:
             logger.error("File {} not found on Server {}".format(dest, url))
             pass
 
-        if os.path.getsize(dest) == 0:
+        if os.path.getsize(dest) == 0:  # pragma: no cover
             os.remove(dest)
 
     def _html_regex(self, url, regex):
@@ -175,7 +180,7 @@ class Magzdb:
             title = re.search(self.REGEX_TITLE, docstring).group("title")
             editions = re.findall(self.REGEX_EDITION, docstring)
 
-            return (title, editions)
+            return (title.strip(), editions)
         except re.error as e:
             logger.error(e)
             raise Exception("REGEX error.")
@@ -187,7 +192,7 @@ class Magzdb:
             raise Exception("HTTP Error encountered.")
 
     def download(
-        self, id: str, editions=list(), latest_only=bool, filter=None,
+        self, id: str, editions=list(), latest_only=False, filter=None,
     ):
         """Download Editions."""
         title, all_editions = self.get_editions(id=id)
