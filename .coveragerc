@@ -16,4 +16,6 @@ exclude_lines =
 omit =
     .eggs/*
     venv/*
+    setup.py
     magzdb\cli.py
+    magzdb\version.py
