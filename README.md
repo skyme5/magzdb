@@ -16,6 +16,12 @@
     </a>
     <a href="https://codecov.io/gh/skyme5/magzdb">
       <img
+        src="https://img.shields.io/codecov/c/github/skyme5/magzdb"
+        alt="Code Coverage"
+      />
+    </a>
+    <a href="https://codecov.io/gh/skyme5/magzdb">
+      <img
         src="https://img.shields.io/pypi/pyversions/magzdb"
         alt="Python Versions"
       />
@@ -24,12 +30,6 @@
       <img
         src="https://img.shields.io/badge/code%20style-black-000000.svg"
         alt="The Uncompromising Code Formatter"
-      />
-    </a>
-    <a href="https://codecov.io/gh/skyme5/magzdb">
-      <img
-        src="https://img.shields.io/codecov/c/github/skyme5/magzdb"
-        alt="Code Coverage"
       />
     </a>
     <a href="https://pepy.tech/project/magzdb">
