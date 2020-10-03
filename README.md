@@ -103,14 +103,13 @@ You can supply filter using `-f`, for example to download issues between
 $ magzdb -i 1826 -f "eid > 4063895 and eid < 4063901"
 ```
 
-You can use any of `eid`, `year`, `issue` the fields in the filter expression.
+You can use `eid`, `year` in the filter expression.
 
 ##### More examples of filter expression
 
 - `eid > 4063895 and eid < 4063901` or `eid >= 4063895 and eid <= 4063901`
 - `eid >= 4063895` or `eid != 4063895`
 - `year >= 2018`, `year <= 2018`, `year == 2018` or even `year != 2018`
-- `year >= 2018 and issue >= 10`
 
 #### Download only latest edition
 
