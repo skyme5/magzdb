@@ -105,3 +105,5 @@ ENV/
 .vscode/
 
 *.pdf
+
+.test-data/

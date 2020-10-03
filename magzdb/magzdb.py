@@ -36,7 +36,7 @@ class Magzdb:
             flags=re.IGNORECASE | re.MULTILINE,
         )
         self.REGEX_EDITION = re.compile(
-            r"""<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)\s*№[\[\(]?(?P<issue>\d+)[^"]+"><span style="background-color""",
+            r"""<a\s*href="\/num\/(?P<id>\d+)"\s*title="(?P<year>\d+)[^"]+"><span style="background-color""",
             flags=re.IGNORECASE | re.MULTILINE,
         )
 
@@ -120,7 +120,7 @@ class Magzdb:
             Returns:
                 str: Safe filter expression
             """
-            allowed_tokens = "eid year issue and or < <= > >= =="
+            allowed_tokens = "eid year and or < <= > >= =="
             number = re.compile(r"^[-+]?([1-9]\d*|0)$")
             return " ".join(
                 [
@@ -131,10 +131,9 @@ class Magzdb:
             )
 
         def eval_filter(filter_str, params):
-            eid, year, issue, *_ = params
+            eid, year, *_ = params
             filter = filter_str.replace("eid", eid)
             filter = filter.replace("year", year)
-            filter = filter.replace("issue", issue)
             return eval(filter)
 
         if editions is not None and len(editions) > 0:
@@ -207,10 +206,9 @@ class Magzdb:
         logger.info("Found {} editions of {}".format(len(selected_editions), title))
 
         for edition in list(reversed(selected_editions)):
-            eid, year, issue, *_ = edition
+            eid, year, *_ = edition
 
-            logger.info("Downloading year {} issue {}".format(year, issue))
-            self._print("Issue ID: {}".format(eid))
+            logger.info("Downloading year {} id {}".format(year, eid))
 
             try:
                 download_link_id = self._html_regex(
@@ -221,7 +219,7 @@ class Magzdb:
 
                 download_url = self._html_regex(
                     self.EDITION_DOWNLOAD_URL.format(download_link_id),
-                    r'''<a href="(?P<url>[^"]*\.\w+)"''',
+                    r'''<a href="(?P<url>http[^"]*(\.\w+)?)"''',
                 ).group("url")
                 self._print("Download URL: {}".format(download_url))
             except AttributeError:
