@@ -1,5 +1,5 @@
 black==21.11b0
-blacken-docs==1.9.2
+blacken-docs==1.12.0
 bump2version>=0.5.11
 coverage>=4.5.4
 pre-commit==2.15.0
