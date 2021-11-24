@@ -1,5 +1,5 @@
 black
-blacken-docs
+blacken-docs==1.12.0
 coverage
 pre-commit
 pydocstyle
