@@ -4,6 +4,6 @@ coverage
 pre-commit
 pydocstyle
 pytest
-twine
+twine==3.6.0
 watchdog
 wheel
