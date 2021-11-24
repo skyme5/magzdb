@@ -1,6 +1,6 @@
 black
 blacken-docs
-coverage
+coverage==6.1.2
 pre-commit
 pydocstyle
 pytest
