@@ -1,9 +1,9 @@
-black
-blacken-docs
-coverage
+black==21.11b1
+blacken-docs==1.12.0
+coverage==6.2
 pre-commit==2.15.0
-pydocstyle
+pydocstyle==6.1.1
 pytest
-twine
+twine==3.6.0
 watchdog
-wheel
+wheel==0.37.0
