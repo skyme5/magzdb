@@ -1,6 +1,6 @@
 black==21.11b1
 blacken-docs
-coverage
+coverage==6.2
 pre-commit
 pydocstyle
 pytest
