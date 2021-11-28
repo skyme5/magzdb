@@ -3,7 +3,7 @@ blacken-docs==1.12.0
 coverage==6.2
 pre-commit==2.15.0
 pydocstyle==6.1.1
-pytest
+pytest==6.2.5
 twine==3.6.0
 watchdog
 wheel==0.37.0
