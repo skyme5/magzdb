@@ -5,5 +5,5 @@ pre-commit
 pydocstyle
 pytest
 twine
-watchdog
+watchdog==2.1.6
 wheel
