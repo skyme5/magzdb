@@ -2,7 +2,7 @@ black==21.11b1
 blacken-docs
 coverage==6.2
 pre-commit
-pydocstyle
+pydocstyle==6.1.1
 pytest
 twine
 watchdog
