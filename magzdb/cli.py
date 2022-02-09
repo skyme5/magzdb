@@ -63,7 +63,7 @@ def main():
         "--downloader",
         help="Use External downloader (RECOMMENDED). Currently supported: aria2, wget",
         metavar="DOWNLOADER",
-        choices=["aria2", "wget", "self"],
+        choices=["aria2", "wget", "curl", "self"],
         default="self",
     )
 

@@ -2,10 +2,13 @@
 import os
 import re
 import subprocess
-from unittest import case
 
 import requests
 from loguru import logger
+
+from magzdb.downloader import download_file
+from magzdb.downloader import DOWNLOADER_LIST
+from magzdb.downloader import external_downloader
 
 
 class Magzdb:
@@ -27,7 +30,7 @@ class Magzdb:
             skip_download (bool, optional): skip downloading
         """
         self.directory_prefix = directory_prefix or os.getcwd()
-        self.downloader = downloader
+        self.downloader = downloader if downloader in DOWNLOADER_LIST else "self"
         self.debug = debug
         self.skip_download = skip_download
 
@@ -42,11 +45,6 @@ class Magzdb:
 
         self.EDITION_DOWNLOAD_PAGE = "http://magzdb.org/num/{}/dl"
         self.EDITION_DOWNLOAD_URL = "http://magzdb.org/file/{}/dl"
-        self.USER_AGENT = (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-            "AppleWebKit/537.36 (KHTML, like Gecko)"
-            "Chrome/84.0.4147.68 Safari/537.36"
-        )
 
         self.reaponse_ok = requests.Response.ok
         self.request = requests.Session()
@@ -55,38 +53,6 @@ class Magzdb:
         """logger.error debug information."""
         if self.debug:
             logger.debug(msg)
-
-    def _download_file(self, url: str, dest: str):
-        if len(os.path.dirname(dest)) > 0:
-            os.makedirs(os.path.dirname(dest), exist_ok=True)
-
-        try:
-            if os.path.isfile(dest) and os.path.getsize(dest) == 0:  # pragma: no cover
-                os.remove(dest)
-        except FileNotFoundError:
-            pass
-
-        try:
-            with open(dest, "xb") as handle:
-                headers = {"User-Agent": self.USER_AGENT}
-                response = self.request.get(
-                    url, stream=True, timeout=160, headers=headers
-                )
-                if response.status_code != self.reaponse_ok:
-                    response.raise_for_status()
-
-                self._print("Downloading to {}".format(dest))
-                for data in response.iter_content(chunk_size=8192):
-                    handle.write(data)
-                handle.close()
-        except FileExistsError:
-            pass
-        except requests.exceptions.RequestException:
-            logger.error("File {} not found on Server {}".format(dest, url))
-            pass
-
-        if os.path.getsize(dest) == 0:  # pragma: no cover
-            os.remove(dest)
 
     def _html_regex(self, url, regex):
         try:
@@ -205,6 +171,9 @@ class Magzdb:
 
         logger.info("Found {} editions of {}".format(len(selected_editions), title))
 
+        if latest_only:
+            selected_editions = selected_editions[-1:]
+
         for edition in list(reversed(selected_editions)):
             eid, year, *_ = edition
 
@@ -231,25 +200,13 @@ class Magzdb:
                 filename = self.get_valid_filename(download_url.split("/")[-1])
                 filepath = os.path.join(directory, filename)
 
-                if self.downloader != "self":
-
-                    def downloader_command(dir, filename, url):
-                        return {
-                            "aria2": 'aria2c -c --dir="{}" --out="{}" "{}"'.format(
-                                dir, filename, url
-                            ),
-                            "wget": 'wget -c -O "{}/{}" "{}"'.format(
-                                dir, filename, url
-                            ),
-                        }[self.downloader]
-
-                    command = downloader_command(directory, filename, download_url)
-                    self._print(command)
-                    if self.skip_download is False:
-                        subprocess.run(command, shell=True)
+                if self.downloader == "self":
+                    if not self.skip_download:
+                        download_file(download_url, filepath)
                 else:
-                    if self.skip_download is False:
-                        self._download_file(download_url, filepath)
-
-                if latest_only:
-                    return
+                    if not self.skip_download:
+                        subprocess.call(
+                            external_downloader(
+                                directory, filename, download_url, self.downloader
+                            )
+                        )
