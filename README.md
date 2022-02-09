@@ -83,7 +83,7 @@ optional arguments:
   -P DIRECTORY_PREFIX, --directory-prefix DIRECTORY_PREFIX
                         Download directory.
   --downloader DOWNLOADER
-                        Use External downloader (RECOMMENDED). Currently supported: aria2, wget
+                        Use External downloader (RECOMMENDED). Currently supported: aria2, wget, curl
   --debug               Print debug information.
   --skip-download       Don't download files.
 ```
@@ -132,3 +132,7 @@ $ magzdb -i 1826 -l -P magazine --downloader wget
 ```
 
 > This is recommended since internal downloader does not support resuming interrupted downloads.
+
+## License
+
+MIT
