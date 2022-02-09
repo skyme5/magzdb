@@ -91,7 +91,7 @@ class Magzdb:
     def _html_regex(self, url, regex):
         try:
             docstring = self.request.get(url, allow_redirects=False).text
-            return re.search(regex, docstring)
+            return [a for a in re.findall(regex, docstring) if a]
         except re.error as e:
             logger.error(e)
             raise Exception("REGEX URL error.")
@@ -210,44 +210,46 @@ class Magzdb:
 
             logger.info("Downloading year {} id {}".format(year, eid))
 
-            try:
-                download_link_id = self._html_regex(
-                    self.EDITION_DOWNLOAD_PAGE.format(eid),
-                    r"""<a\s*href\=\.\.\/file\/(?P<id>\d+)/dl>""",
-                ).group("id")
-                self._print("Download Link ID: {}".format(download_link_id))
+            for dowload_id in self._html_regex(
+                self.EDITION_DOWNLOAD_PAGE.format(eid),
+                r"""<a\s*href\=\.\.\/file\/(?P<id>\d+)/dl>""",
+            ):
+                self._print("Download Link ID: {}".format(dowload_id))
 
-                download_url = self._html_regex(
-                    self.EDITION_DOWNLOAD_URL.format(download_link_id),
-                    r'''<a href="(?P<url>http[^"]*(\.\w+)?)"''',
-                ).group("url")
-                self._print("Download URL: {}".format(download_url))
-            except AttributeError:
-                logger.error(
-                    "Download Url not found for http://magzdb.org/num/{}/dl".format(eid)
+                download_url_list = self._html_regex(
+                    self.EDITION_DOWNLOAD_URL.format(dowload_id),
+                    r'''<a href=\"(?P<url>http[^\"]*(?:\.\w+)?)"''',
                 )
-                continue
 
-            filename = self.get_valid_filename(download_url.split("/")[-1])
-            filepath = os.path.join(directory, filename)
+                if not download_url_list:
+                    continue
 
-            if self.downloader != "self":
+                download_url = download_url_list[0]
 
-                def downloader_command(dir, filename, url):
-                    return {
-                        "aria2": 'aria2c -c --dir="{}" --out="{}" "{}"'.format(
-                            dir, filename, url
-                        ),
-                        "wget": 'wget -c -O "{}/{}" "{}"'.format(dir, filename, url),
-                    }[self.downloader]
+                self._print("Download URL: {}".format(download_url))
 
-                command = downloader_command(directory, filename, download_url)
-                self._print(command)
-                if self.skip_download is False:
-                    subprocess.run(command, shell=True)
-            else:
-                if self.skip_download is False:
-                    self._download_file(download_url, filepath)
+                filename = self.get_valid_filename(download_url.split("/")[-1])
+                filepath = os.path.join(directory, filename)
 
-            if latest_only:
-                return
+                if self.downloader != "self":
+
+                    def downloader_command(dir, filename, url):
+                        return {
+                            "aria2": 'aria2c -c --dir="{}" --out="{}" "{}"'.format(
+                                dir, filename, url
+                            ),
+                            "wget": 'wget -c -O "{}/{}" "{}"'.format(
+                                dir, filename, url
+                            ),
+                        }[self.downloader]
+
+                    command = downloader_command(directory, filename, download_url)
+                    self._print(command)
+                    if self.skip_download is False:
+                        subprocess.run(command, shell=True)
+                else:
+                    if self.skip_download is False:
+                        self._download_file(download_url, filepath)
+
+                if latest_only:
+                    return
