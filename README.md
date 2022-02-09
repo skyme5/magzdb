@@ -10,7 +10,7 @@
     </a>
     <a href="https://pypi.python.org/pypi/magzdb">
       <img
-        src="https://img.shields.io/github/workflow/status/skyme5/magzdb/build"
+        src="https://img.shields.io/github/workflow/status/skyme5/magzdb/build?cacheSeconds=3600"
         alt="CI"
       />
     </a>
@@ -22,7 +22,7 @@
     </a>
     <a href="https://codecov.io/gh/skyme5/magzdb">
       <img
-        src="https://img.shields.io/pypi/pyversions/magzdb"
+        src="https://img.shields.io/pypi/pyversions/magzdb?cacheSeconds=3600"
         alt="Python Versions"
       />
     </a>
