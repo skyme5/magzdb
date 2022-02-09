@@ -43,24 +43,17 @@ def download_file(url: str, dest: str):
         os.remove(dest)
 
 
-def external_downloader(dir: str, filename: str, url: str, name: str):
-    parameters = {
-        "aria2": [
-            "aria2c",
-            "-c",
-            "-s",
-            f'--dir="{dir}"',
-            f'--out="{filename}"',
-            f'"{url}"',
-        ],
-        "wget": ["wget", "-nv", "-c", "-O", os.path.join(dir, filename), url,],
-        "curl": [
-            "curl",
-            f'"{url}"',
-            "--output",
-            f'"{os.path.join(dir, filename)}"',
-            "--silent",
-        ],
+def external_downloader(dir: str, filename: str, url: str, name: str, debug: bool):
+    parameters = {  # pragma: no cover
+        "aria2": ["aria2c", "-c", f'--dir="{dir}"', f'--out="{filename}"', url],
+        "wget": ["wget", "-c", "-O", os.path.join(dir, filename), url],
+        "curl": ["curl", "-C", "-", url, "--output", os.path.join(dir, filename)],
     }
 
-    return parameters.get(name)
+    silent_flags = {  # pragma: no cover
+        "aria2": ["-s"],
+        "wget": ["-nv"],
+        "curl": ["--silent"],
+    }
+
+    return parameters.get(name) if debug else parameters.get(name) + silent_flags[name]

@@ -204,9 +204,13 @@ class Magzdb:
                     if not self.skip_download:
                         download_file(download_url, filepath)
                 else:
-                    if not self.skip_download:
+                    if not self.skip_download:  # pragma: no cover
                         subprocess.call(
                             external_downloader(
-                                directory, filename, download_url, self.downloader
+                                directory,
+                                filename,
+                                download_url,
+                                self.downloader,
+                                self.debug,
                             )
                         )
