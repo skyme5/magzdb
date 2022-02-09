@@ -38,6 +38,7 @@ class TestMagzdb(unittest.TestCase):
     def test_download(self):
         """Test download."""
         self.magzdb.download(id="2249", editions=["2716361"])
+        self.magzdb.download(id="2490", editions=["3694138"])
 
     def test_download_wget(self):
         """Test download."""
