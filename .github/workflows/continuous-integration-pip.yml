@@ -25,7 +25,7 @@ jobs:
     - name: Install downloaders
       run: |
         sudo apt-get install wget curl
-        snap install aria2c
+        sudo snap install aria2c
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
