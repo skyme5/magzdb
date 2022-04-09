@@ -22,7 +22,7 @@ class TestMagzdb(unittest.TestCase):
             directory_prefix=self.data_dir, downloader="wget", debug=True
         )
         self.magzdbDLAria2 = Magzdb(
-            directory_prefix=self.data_dir, downloader="aria2c", debug=True
+            directory_prefix=self.data_dir, downloader="aria2", debug=True
         )
         self.magzdbDLCurl = Magzdb(
             directory_prefix=self.data_dir, downloader="curl", debug=True
@@ -44,7 +44,7 @@ class TestMagzdb(unittest.TestCase):
         if os.path.isdir(os.path.join(self.data_dir)):
             shutil.rmtree(os.path.join(self.data_dir))
 
-    def test_download(self):
+    def test_download_internal(self):
         """Test download."""
         self.magzdb.download(id="2249", editions=["2716361"])
         self.magzdb.download(id="2490", editions=["3694138"])
@@ -57,13 +57,13 @@ class TestMagzdb(unittest.TestCase):
         """Test download."""
         self.magzdbDLWget.download(id="2249", editions=["2716361"])
 
-    def test_download_aria2c(self):
-        """Test download."""
-        self.magzdbDLAria2.download(id="2249", editions=["2716361"])
-
     def test_download_curl(self):
         """Test download."""
         self.magzdbDLCurl.download(id="2249", editions=["2716361"])
+
+    def test_download_aria2c(self):
+        """Test download."""
+        self.magzdbDLAria2.download(id="2249", editions=["2716361"])
 
     def test_issue_count(self):
         """Test download."""

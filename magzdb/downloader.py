@@ -45,7 +45,14 @@ def download_file(url: str, dest: str):
 
 def external_downloader(dir: str, filename: str, url: str, name: str, debug: bool):
     parameters = {  # pragma: no cover
-        "aria2": ["aria2c", "-c", f'--dir="{dir}"', f'--out="{filename}"', url],
+        "aria2": [
+            "aria2c",
+            "--retry-wait=3",
+            "-c",
+            f'--dir="{dir}"',
+            f'--out="{filename}"',
+            url,
+        ],
         "wget": ["wget", "-c", "-O", os.path.join(dir, filename), url],
         "curl": ["curl", "-C", "-", url, "--output", os.path.join(dir, filename)],
     }
