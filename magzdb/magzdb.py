@@ -124,6 +124,11 @@ class Magzdb:
         s = str(s).strip().replace(" ", "_")
         return re.sub(r"(?u)[^-\w.]", "", s)
 
+    def format_filename(self, title, year, eid, ext=".pdf"):
+        """Return formatted title
+        """
+        return self.get_valid_filename(f"#{title} #{year} No #{eid}") + ext
+
     def get_editions(self, id: str):
         """Get title and editions for `id`.
 
@@ -197,8 +202,9 @@ class Magzdb:
 
                 self._print("Download URL: {}".format(download_url))
 
-                filename = self.get_valid_filename(download_url.split("/")[-1])
+                filename = self.format_filename(title, year, eid)
                 filepath = os.path.join(directory, filename)
+                print(filepath)
 
                 if self.downloader == "self":
                     if not self.skip_download:
