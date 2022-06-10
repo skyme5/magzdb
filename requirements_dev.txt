@@ -5,5 +5,5 @@ pre-commit==2.19.0
 pydocstyle==6.1.1
 pytest==7.1.2
 twine==4.0.1
-watchdog==2.1.8
+watchdog==2.1.9
 wheel==0.37.1
