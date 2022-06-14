@@ -90,6 +90,17 @@ optional arguments:
 
 ### Usage Examples
 
+#### Docker
+
+```bash
+docker build . -t magzdb
+docker run -v $(PWD):/tmp magzdb -h
+
+# Add alias to shell
+alias magzdb="docker run -v $(PWD):/tmp magzdb"
+magzdb -h
+```
+
 #### Download all editions
 
 ```bash
