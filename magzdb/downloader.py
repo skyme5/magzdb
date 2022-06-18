@@ -4,7 +4,7 @@ import subprocess
 import requests
 from loguru import logger
 
-DOWNLOADER_LIST = ["aria2c", "curl", "self", "wget"]
+DOWNLOADER_LIST = ["aria2", "curl", "self", "wget"]
 
 
 def download_file(url: str, dest: str):
@@ -49,8 +49,8 @@ def external_downloader(dir: str, filename: str, url: str, name: str, debug: boo
             "aria2c",
             "--retry-wait=3",
             "-c",
-            f'--dir="{dir}"',
-            f'--out="{filename}"',
+            f"--dir={dir}",
+            f"--out={filename}",
             url,
         ],
         "wget": ["wget", "-c", "-O", os.path.join(dir, filename), url],
@@ -58,9 +58,12 @@ def external_downloader(dir: str, filename: str, url: str, name: str, debug: boo
     }
 
     silent_flags = {  # pragma: no cover
-        "aria2": ["-s"],
+        "aria2": ["-q"],
         "wget": ["-nv"],
         "curl": ["--silent"],
     }
+
+    if debug:
+        print(parameters.get(name))
 
     return parameters.get(name) if debug else parameters.get(name) + silent_flags[name]
