@@ -186,7 +186,7 @@ class Magzdb:
 
             for dowload_id in self._html_regex(
                 self.EDITION_DOWNLOAD_PAGE.format(eid),
-                r"""<a\s*href\=\.\.\/file\/(?P<id>\d+)/dl>""",
+                r"""<a\s*href\=\.\.\/file\/(?P<id>\d+)\/dl>""",
             ):
                 self._print("Download Link ID: {}".format(dowload_id))
 

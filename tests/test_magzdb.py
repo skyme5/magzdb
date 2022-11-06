@@ -17,15 +17,26 @@ class TestMagzdb(unittest.TestCase):
         """Set up test fixtures"""
         self.data_dir = ".test-data"
         self.title = "Nature"
-        self.magzdb = Magzdb(directory_prefix=self.data_dir, debug=True)
+        self.magzdb = Magzdb(
+            directory_prefix=self.data_dir, debug=True, skip_download=True
+        )
         self.magzdbDLWget = Magzdb(
-            directory_prefix=self.data_dir, downloader="wget", debug=True
+            directory_prefix=self.data_dir,
+            downloader="wget",
+            debug=True,
+            skip_download=True,
         )
         self.magzdbDLAria2 = Magzdb(
-            directory_prefix=self.data_dir, downloader="aria2", debug=True
+            directory_prefix=self.data_dir,
+            downloader="aria2",
+            debug=True,
+            skip_download=True,
         )
         self.magzdbDLCurl = Magzdb(
-            directory_prefix=self.data_dir, downloader="curl", debug=True
+            directory_prefix=self.data_dir,
+            downloader="curl",
+            debug=True,
+            skip_download=True,
         )
         self.magzdbNoDL = Magzdb(
             directory_prefix=self.data_dir,
