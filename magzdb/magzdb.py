@@ -43,8 +43,8 @@ class Magzdb:
             flags=re.IGNORECASE | re.MULTILINE,
         )
 
-        self.EDITION_DOWNLOAD_PAGE = "http://magzdb.org/num/{}/dl"
-        self.EDITION_DOWNLOAD_URL = "http://magzdb.org/file/{}/dl"
+        self.EDITION_DOWNLOAD_PAGE = "https://magzdb.org/num/{}/dl"
+        self.EDITION_DOWNLOAD_URL = "https://magzdb.org/file/{}/dl"
 
         self.reaponse_ok = requests.Response.ok
         self.request = requests.Session()
