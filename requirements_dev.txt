@@ -4,6 +4,6 @@ coverage==6.4.4
 pre-commit==2.20.0
 pydocstyle==6.1.1
 pytest==7.2.0
-twine==4.0.1
+twine==4.0.2
 watchdog==2.1.9
 wheel==0.38.2
