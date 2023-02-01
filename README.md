@@ -149,6 +149,14 @@ $ magzdb -i 1826 -l -P magazine --downloader wget
 If you don't want to install official [Python](https://www.python.org/downloads/) to your system (global).
 You can install [pyenv installer](https://github.com/pyenv/pyenv-installer) environment under your specific account. It's prefered method for macOS users, because High Sierra and later macOS ships with old Python 2.7.10.
 
+## Contributing
+
+Found a bug or missing a feature you are more than welcome to contribute.
+
+<a href="https://github.com/skyme5/magzdb/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=skyme5/magzdb" />
+</a>
+
 ## License
 
 MIT
