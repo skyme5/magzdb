@@ -10,7 +10,7 @@
     </a>
     <a href="https://pypi.python.org/pypi/magzdb">
       <img
-        src="https://img.shields.io/github/workflow/status/skyme5/magzdb/build?cacheSeconds=3600"
+        src="https://github.com/skyme5/magzdb/actions/workflows/continuous-integration-pip.yml/badge.svg"
         alt="CI"
       />
     </a>
