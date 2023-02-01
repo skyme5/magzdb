@@ -86,15 +86,17 @@ class Magzdb:
             Returns:
                 str: Safe filter expression
             """
-            allowed_tokens = "eid year and or < <= > >= =="
+            allowed_tokens = ['eid', 'year', 'and', 'or', '<', '<=', '>', '>=', '==']
             number = re.compile(r"^[-+]?([1-9]\d*|0)$")
-            return " ".join(
-                [
+            filter_split = re.findall(r"(\w+|<=|>=|<|>|==|!=)\s*(\d+)?", filter_str.lower())
+            flat_filter_split = [item.strip() for sublist in filter_split for item in sublist if item!='']
+            filter=" ".join(
+                [   
                     e
-                    for e in re.split(r"\s+", filter_str.lower())
+                    for e in flat_filter_split
                     if e in allowed_tokens or re.match(number, e)
-                ]
-            )
+                ])
+            return (filter)
 
         def eval_filter(filter_str, params):
             eid, year, *_ = params
