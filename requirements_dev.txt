@@ -2,7 +2,7 @@ black==22.10.0
 blacken-docs==1.12.1
 coverage==7.0.1
 pre-commit==2.20.0
-pydocstyle==6.2.3
+pydocstyle==6.3.0
 pytest==7.2.0
 twine==4.0.2
 watchdog==2.1.9
