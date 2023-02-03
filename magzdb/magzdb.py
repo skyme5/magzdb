@@ -86,15 +86,25 @@ class Magzdb:
             Returns:
                 str: Safe filter expression
             """
-            allowed_tokens = "eid year and or < <= > >= =="
+            allowed_tokens = ["eid", "year", "and", "or", "<", "<=", ">", ">=", "=="]
             number = re.compile(r"^[-+]?([1-9]\d*|0)$")
-            return " ".join(
+            filter_split = re.findall(
+                r"(\w+|<=|>=|<|>|==|!=)\s*(\d+)?", filter_str.lower()
+            )
+            flat_filter_split = [
+                item.strip()
+                for sublist in filter_split
+                for item in sublist
+                if item != ""
+            ]
+            filter = " ".join(
                 [
                     e
-                    for e in re.split(r"\s+", filter_str.lower())
+                    for e in flat_filter_split
                     if e in allowed_tokens or re.match(number, e)
                 ]
             )
+            return filter
 
         def eval_filter(filter_str, params):
             eid, year, *_ = params
@@ -125,8 +135,7 @@ class Magzdb:
         return re.sub(r"(?u)[^-\w.]", "", s)
 
     def format_filename(self, title, year, eid, ext=".pdf"):
-        """Return formatted title
-        """
+        """Return formatted title"""
         return self.get_valid_filename(f"#{title} #{year} No #{eid}") + ext
 
     def get_editions(self, id: str):
