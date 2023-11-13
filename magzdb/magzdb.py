@@ -56,7 +56,7 @@ class Magzdb:
 
     def _html_regex(self, url, regex):
         try:
-            docstring = self.request.get(url, allow_redirects=False).text
+            docstring = self.request.get(url, allow_redirects=True).text
             return [a for a in re.findall(regex, docstring) if a]
         except re.error as e:
             logger.error(e)
