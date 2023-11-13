@@ -1,9 +1,9 @@
 black==23.11.0
-blacken-docs==1.13.0
-coverage==7.1.0
-pre-commit==3.0.4
+blacken-docs==1.16.0
+coverage==7.3.2
+pre-commit==3.5.0
 pydocstyle==6.3.0
-pytest==7.2.1
+pytest==7.4.3
 twine==4.0.2
-watchdog==2.3.0
-wheel==0.38.4
+watchdog==3.0.0
+wheel==0.41.2
